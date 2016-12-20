@@ -1,0 +1,12 @@
+<svg version="1.1" baseProfile="full" width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+  <g >
+    <line x1="100" x2="100" y1="0" y2="300" stroke="grey" stroke-width="3px" />
+    <text x="70" y="0" style="stroke:grey;">100</text>
+    <text x="70" y="60" style="stroke:grey;">80</text>
+    <text x="70" y="120" style="stroke:grey;">60</text>
+    <text x="70" y="180" style="stroke:grey;">40</text>
+    <text x="70" y="240" style="stroke:grey;">20</text>
+    <text x="70" y="300" style="stroke:grey;">00</text>
+    <line x1="100" x2="500" y1="300" y2="300" stroke="grey" stroke-width="3px" />
+  </g>
+  </svg>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JavaScript Data Manipulation</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- javascript --------------------------------------------------------------->
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/d3.js"></script>
+    <script type="text/javascript">
+        var values = new Array();
+        var keys = new Array();
+        var countries = ["Netherlands", "Canada", "United States", "United Kingdom", "Australia", "France", "Germany", "Spain", "South Africa"];
+        d3.json('../json/nutrition.json', function(error, data) {
+            if (error) {
+                console.log(error);
+            } else {
+                for (var prop in data) {
+                    if (data.hasOwnProperty(prop)) {
+                        if (countries.includes(prop)) {
+                            values.push(data[prop]);
+                            keys.push(prop);
+                        }
+                    }
+                }
+                //define the boundaries
+                var w = 800;
+                var h = 400;
+                var max = 0;
+                values.forEach(elem => {
+                    if (elem.sugar > max)
+                        max = elem.sugar;
+                });
+                //create scales
+                var xScale = d3.scaleLinear()
+                    .domain([0, keys.legth])
+                    .range([0, w]);
+                var yScale = d3.scaleLinear()
+                    .domain([0, max])
+                    .range([0, h]);
+                //create an empty svg element
+                var body = d3.select("body");
+                var svg = body.append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+                //create the rectangular bars
+                var bars = svg.selectAll("rect")
+                    .data(keys)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) {
+                        var i = keys.indexOf(d);
+                        return i * (w / keys.length);
+                    })
+                    .attr("y", function(d) {
+                        var i = keys.indexOf(d);
+                        return h - ((values[i].sugar * (h / max)));
+                    })
+                    .attr("width", function(d) {
+                        var i = keys.indexOf(d);
+                        return ((w / keys.length - 10)) + "px";
+                    })
+                    .attr("height", function(d) {
+                        var i = keys.indexOf(d);
+                        return (values[i].sugar * (h / max)) + "px";
+                    });
+                var xAxis = d3.axisBottom()
+                    .scale(xScale)
+                    .ticks(keys.length);
+                svg.append("g")
+                    .attr("class", "axis")
+                    .call(xAxis);
+                var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(max);
+                svg.append("g")
+                    .attr("class", "axis")
+                    .attr("transform", "translate(0," + h + ")")
+                    .call(yAxis);
+            }
+        });
+
+    </script>
+    <!---------------------------------------------------------------------------->
+</body>
+
+</html>
+ml>
